@@ -23,7 +23,7 @@ public class GroupCreationTests {
     }
 
     @Test
-    public void test() {
+    public void canCreateGroup() {
         if (!isElementPresent(By.name("new"))) {
             driver.findElement(By.linkText("groups")).click();
         }
