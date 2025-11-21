@@ -7,7 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class GroupDeletionTests {
-    private WebDriver driver;
+    private static WebDriver driver;
 
     @BeforeEach
     public void setUp() {
