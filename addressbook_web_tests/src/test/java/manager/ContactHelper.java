@@ -18,7 +18,7 @@ public class ContactHelper extends HelperBase {
     public void removeContact() {
         openHomePage();
         selectContact();
-        removeSelectedContact();
+        removeSelectedContacts();
         returnToHomePage();
     }
 
@@ -59,7 +59,7 @@ public class ContactHelper extends HelperBase {
         click(By.name("selected[]"));
     }
 
-    private void removeSelectedContact() {
+    private void removeSelectedContacts() {
         click(By.name("delete"));
     }
 
@@ -67,4 +67,16 @@ public class ContactHelper extends HelperBase {
         openHomePage();
         return manager.isElementPresent(By.name("selected[]"));
     }
+
+    public void deleteAllContacts() {
+        openHomePage();
+        selectAllContacts();
+        removeSelectedContacts();
+        returnToHomePage();
+    }
+
+    private void selectAllContacts() {
+        click(By.cssSelector(String.format("input[id='MassCB']")));
+    }
+
 }
