@@ -22,6 +22,11 @@ public class ContactHelper extends HelperBase {
         returnToHomePage();
     }
 
+    public int getCount() {
+        openHomePage();
+        return manager.driver.findElements(By.name("selected[]")).size();
+    }
+
     public void openHomePage() {
         if (!manager.isElementPresent(By.name("add"))) {
             click(By.linkText("home"));

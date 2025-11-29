@@ -1,38 +1,38 @@
 package tests;
 
 import model.ContactData;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContactCreationTests extends TestBase {
 
-    @Test
-    public void canCreateContact() {
-        app.contacts().createContact(new ContactData("Ivanov", "Ivanovich", "Ivanov", "Tverskaya, 36", "ivanov@gmail.com"));
+    public static List<ContactData> contactProvider() {
+        var result = new ArrayList<ContactData>();
+        for (var firstname : List.of("", "contact name")) {
+            for (var middlename : List.of("", "middlename")) {
+                for (var lastname : List.of("", "lastname")) {
+                    for (var address : List.of("", "address")) {
+                        for (var email : List.of("", "email"))
+                            result.add(new ContactData(firstname, middlename, lastname, address, email));
+                    }
+                }
+            }
+        }
+        for (int i = 0; i < 5; i++) {
+            result.add(new ContactData(randomString(i), randomString(i), randomString(i), randomString(i), randomString(i)));
+        }
+        return result;
     }
 
-    @Test
-    public void canCreateContactWithEmptyFields() {
-        app.contacts().createContact(new ContactData());
+    @ParameterizedTest
+    @MethodSource("contactProvider")
+    public void canCreateMultipleContacts(ContactData contact) {
+        int contactCount = app.contacts().getCount();
+        app.contacts().createContact(contact);
+        int newContactCount = app.contacts().getCount();
+        Assertions.assertEquals(contactCount + 1, newContactCount);
     }
-
-    @Test
-    public void canCreateContactWithFirstNameOnly() {
-        app.contacts().createContact(new ContactData().withFirstName("Petr"));
-    }
-
-    @Test
-    public void canCreateContactWithAddressOnly() {
-        app.contacts().createContact(new ContactData().withAddress("Prospect Lenina, 86"));
-    }
-
-    @Test
-    public void canCreateContactWithEmailOnly() {
-        app.contacts().createContact(new ContactData().withEmail("sidorov@gmail.com"));
-    }
-
-    @Test
-    public void canCreateContactWithMiddleAndLastNameOnly() {
-        app.contacts().createContact(new ContactData().withMiddleAndLastName("Petrovich", "Petrov"));
-    }
-
 }
