@@ -53,7 +53,8 @@ public class Generator {
             result.add(new ContactData().
                     withFirstName(CommonFunctions.randomString(i*5)).
                     withLastName(CommonFunctions.randomString(i*5)).
-                    withEmail(CommonFunctions.randomString(i*5)));
+                    withEmail(CommonFunctions.randomString(i*5))
+            .withPhoto(CommonFunctions.randomFile("src/test/resources/images")));
         }
         return result;
     }

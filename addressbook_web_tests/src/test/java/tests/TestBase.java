@@ -3,23 +3,12 @@ package tests;
 import manager.ApplicationManager;
 import org.junit.jupiter.api.BeforeEach;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.Properties;
-import java.util.Random;
 
 public class TestBase {
     protected static ApplicationManager app;
-
-    public static String randomFile(String dir){
-        var fileNames = new File(dir).list();
-        var rnd = new Random();
-        var index = rnd.nextInt(fileNames.length);
-        return Paths.get(dir, fileNames[index]).toString();
-    }
 
     @BeforeEach
     public void setUp() throws IOException {
