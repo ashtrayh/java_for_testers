@@ -1,38 +1,38 @@
 package tests;
 
-import common.CommonFunctions;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import model.ContactData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 public class ContactCreationTests extends TestBase {
 
-    public static List<ContactData> contactProvider() {
+    public static List<ContactData> contactProvider() throws IOException {
         var result = new ArrayList<ContactData>();
-        for (var firstname : List.of("", "contact name")) {
-                for (var lastname : List.of("", "lastname")) {
-                        for (var email : List.of("", "email")) {
-                            for (var photo : List.of("src/test/resources/images/man.png", "src/test/resources/images/avatar.png")) {
-                                result.add(new ContactData().
-                                        withFirstName(firstname).
-                                        withLastName(lastname).
-                                        withEmail(email).
-                                        withPhoto(photo));
-                            }
-                 }
-                }
-            }
-        for (int i = 0; i < 5; i++) {
-            result.add(new ContactData().
-                    withFirstName(CommonFunctions.randomString(i)).
-                    withLastName(CommonFunctions.randomString(i)).
-                    withEmail(CommonFunctions.randomString(i)).
-                    withPhoto(randomFile("src/test/resources/images")));
-        }
+//        for (var firstname : List.of("", "contact name")) {
+//                for (var lastname : List.of("", "lastname")) {
+//                        for (var email : List.of("", "email")) {
+//                            for (var photo : List.of("", "src/test/resources/images/avatar.png")) {
+//                                result.add(new ContactData().
+//                                        withFirstName(firstname).
+//                                        withLastName(lastname).
+//                                        withEmail(email).
+//                                        withPhoto(photo));
+//                            }
+//                 }
+//                }
+//            }
+        ObjectMapper mapper = new ObjectMapper();
+        var value = mapper.readValue(new File("contacts.json"), new TypeReference<List<ContactData>>() {});
+        result.addAll(value);
         return result;
     }
 
