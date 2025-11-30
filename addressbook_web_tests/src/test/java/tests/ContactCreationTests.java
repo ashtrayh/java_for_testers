@@ -1,7 +1,7 @@
 package tests;
 
+import common.CommonFunctions;
 import model.ContactData;
-import model.GroupData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -13,22 +13,25 @@ public class ContactCreationTests extends TestBase {
 
     public static List<ContactData> contactProvider() {
         var result = new ArrayList<ContactData>();
-        for (var firstname : List.of("", "contact name")) {{
-                for (var lastname : List.of("", "lastname")) {{
-                        for (var email : List.of("", "email"))
-                            result.add(new ContactData().
-                                    withFirstName(firstname).
-                                    withLastName(lastname).
-                                    withEmail(email));
+        for (var firstname : List.of("", "contact name")) {
+                for (var lastname : List.of("", "lastname")) {
+                        for (var email : List.of("", "email")) {
+                            for (var photo : List.of("src/test/resources/images/man.png", "src/test/resources/images/avatar.png")) {
+                                result.add(new ContactData().
+                                        withFirstName(firstname).
+                                        withLastName(lastname).
+                                        withEmail(email).
+                                        withPhoto(photo));
+                            }
                  }
                 }
             }
-        }
         for (int i = 0; i < 5; i++) {
             result.add(new ContactData().
-                    withFirstName(randomString(i)).
-                    withLastName(randomString(i)).
-                    withEmail(randomString(i)));
+                    withFirstName(CommonFunctions.randomString(i)).
+                    withLastName(CommonFunctions.randomString(i)).
+                    withEmail(CommonFunctions.randomString(i)).
+                    withPhoto(randomFile("src/test/resources/images")));
         }
         return result;
     }
@@ -44,7 +47,7 @@ public class ContactCreationTests extends TestBase {
         };
         newContacts.sort(compareById);
         var expectedList = new ArrayList<>(oldContacts);
-        expectedList.add(contact.withId(newContacts.get(newContacts.size() - 1).id()).withEmail(""));
+        expectedList.add(contact.withId(newContacts.get(newContacts.size() - 1).id()).withEmail("").withPhoto(""));
         expectedList.sort(compareById);
         Assertions.assertEquals(newContacts, expectedList);
     }
