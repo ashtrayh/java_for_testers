@@ -50,6 +50,10 @@ public class ContactHelper extends HelperBase {
         }
     }
 
+    public void reloadHomePage() {
+            click(By.linkText("home"));
+    }
+
     private void initContactCreation() {
         if (!manager.isElementPresent(By.name("photo"))) {
             click(By.linkText("add new"));

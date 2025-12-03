@@ -43,15 +43,15 @@ public class ContactCreationTests extends TestBase {
     @ParameterizedTest
     @MethodSource("contactProvider")
     public void canCreateMultipleContacts(ContactData contact) {
-        var oldContacts = app.contacts().getList();
+        var oldContacts = app.hbm().getContactList();
         app.contacts().createContact(contact);
-        var newContacts = app.contacts().getList();
+        var newContacts = app.hbm().getContactList();
         Comparator<ContactData> compareById = (o1, o2) -> {
             return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
         };
         newContacts.sort(compareById);
         var expectedList = new ArrayList<>(oldContacts);
-        expectedList.add(contact.withId(newContacts.get(newContacts.size() - 1).id()).withEmail("").withPhoto(""));
+        expectedList.add(contact.withId(newContacts.get(newContacts.size() - 1).id()).withPhoto(""));
         expectedList.sort(compareById);
         Assertions.assertEquals(newContacts, expectedList);
     }
@@ -70,6 +70,20 @@ public class ContactCreationTests extends TestBase {
         var oldRelated = app.hbm().getContactsInGroup(group);
         app.contacts().createContact(contact, group);
         var newRelated = app.hbm().getContactsInGroup(group);
-        Assertions.assertEquals(oldRelated.size() + 1, newRelated.size());
+        Comparator<ContactData> compareByIdAndEmail = (o1, o2) -> {
+            int compareId = Integer.compare(
+                    Integer.parseInt(o1.id()),
+                    Integer.parseInt(o2.id())
+            );
+            if (compareId != 0) {
+                return compareId;
+            }
+            return o1.email().compareTo(o2.email());
+        };
+        newRelated.sort(compareByIdAndEmail);
+        var expectedList = new ArrayList<>(oldRelated);
+        expectedList.add(contact.withId(newRelated.get(newRelated.size() - 1).id()).withPhoto(""));
+        expectedList.sort(compareByIdAndEmail);
+        Assertions.assertEquals(newRelated, expectedList);
     }
 }

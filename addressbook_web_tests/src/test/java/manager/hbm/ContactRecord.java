@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+import java.util.Date;
+
 @Entity
 @Table(name="addressbook")
 public class ContactRecord {
@@ -12,6 +14,21 @@ public class ContactRecord {
     public String firstname;
     public String lastname;
     public String email;
+    public String middlename = "default";
+    public String nickname = "default";
+    public String company = "default";
+    public String title = "default";
+    public String address  = "default";
+    public String home = "default";
+    public String mobile = "default";
+    public String work = "default";
+    public String fax = "default";
+    public String email2 = "default";
+    public String email3 = "default";
+    public String homepage = "default";
+
+
+
 
     public ContactRecord() {
     }
