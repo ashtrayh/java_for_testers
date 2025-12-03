@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class ContactModificationTests extends TestBase {
     @Test
@@ -83,7 +84,22 @@ public class ContactModificationTests extends TestBase {
             var oldRelated = app.hbm().getContactsInGroup(group);
             app.contacts().removeContactFromGroup(contact, group);
             var newRelated = app.hbm().getContactsInGroup(group);
-            Assertions.assertEquals(oldRelated.size() - 1, newRelated.size());
+            Comparator<ContactData> compareByIdAndFirstname = (o1, o2) -> {
+                int compareId = Integer.compare(
+                        Integer.parseInt(o1.id()),
+                        Integer.parseInt(o2.id())
+                );
+                if (compareId != 0) {
+                    return compareId;
+                }
+                return o1.firstname().compareTo(o2.firstname());
+            };
+            newRelated.sort(compareByIdAndFirstname);
+            var expectedList=oldRelated.stream().
+                    filter(c -> !c.id().equals(contact.id())).
+                    collect(Collectors.toCollection(ArrayList::new));
+            expectedList.sort(compareByIdAndFirstname);
+            Assertions.assertEquals(newRelated, expectedList);
         }
     }
 }
