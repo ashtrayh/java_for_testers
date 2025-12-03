@@ -2,6 +2,7 @@ package manager;
 
 import manager.hbm.ContactRecord;
 import manager.hbm.GroupRecord;
+
 import model.ContactData;
 import model.GroupData;
 import org.hibernate.SessionFactory;
@@ -93,6 +94,8 @@ public class HibernateHelper extends HelperBase {
         });
     }
 
+
+
     public List<ContactData> getContactList() {
         return convertContactList(sessionFactory.fromSession(session -> {
             return session.createQuery("from ContactRecord", ContactRecord.class).list();
@@ -112,5 +115,4 @@ public class HibernateHelper extends HelperBase {
             session.getTransaction().commit();
         });
     }
-
 }

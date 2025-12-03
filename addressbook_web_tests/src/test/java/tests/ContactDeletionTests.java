@@ -34,5 +34,10 @@ public class ContactDeletionTests extends TestBase {
         app.contacts().deleteAllContacts();
         Assertions.assertEquals(0, app.hbm().getContactCount());
     }
+
+    @Test
+    void canRemoveContactFromGroup() {
+
+    }
 }
 

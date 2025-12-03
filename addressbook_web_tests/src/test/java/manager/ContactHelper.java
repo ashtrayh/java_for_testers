@@ -125,4 +125,40 @@ public class ContactHelper extends HelperBase {
     private void submitContactModification() {
         click(By.name("update"));
     }
+
+    public void addContactInGroup(ContactData contact, GroupData group) {
+        openHomePage();
+        selectContact(contact);
+        selectGroupForContact(group);
+        addContactToGroup();
+        goToGroupPage(group);
+    }
+
+    private void goToGroupPage(GroupData group) {
+        click(By.linkText("group page \"" + group.name() + "\""));
+    }
+
+    private void addContactToGroup() {
+        click(By.name("add"));
+    }
+
+    private void selectGroupForContact(GroupData group) {
+            new Select(manager.driver.findElement(By.name("to_group"))).selectByValue(group.id());
+        }
+
+    public void removeContactFromGroup(ContactData contact, GroupData group) {
+        openHomePage();
+        selectGroupFilter(group);
+        selectContact(contact);
+        submitContactRemoval();
+        goToGroupPage(group);
+    }
+
+    private void submitContactRemoval() {
+        click(By.name("remove"));
+    }
+
+    private void selectGroupFilter(GroupData group) {
+        new Select(manager.driver.findElement(By.name("group"))).selectByValue(group.id());
+    }
 }
