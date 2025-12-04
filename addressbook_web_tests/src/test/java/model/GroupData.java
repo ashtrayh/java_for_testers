@@ -19,4 +19,8 @@ public record GroupData(String id, String name, String header, String footer) {
     public GroupData withFooter(String footer) {
         return new GroupData(this.id, this.name, this.header, footer);
     }
+
+    public int getId() {
+        return Integer.parseInt(this.id);
+    }
 }

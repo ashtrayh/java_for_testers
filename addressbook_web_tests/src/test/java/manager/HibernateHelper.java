@@ -102,6 +102,17 @@ public class HibernateHelper extends HelperBase {
         }));
     }
 
+    public List<Integer> getContactIdList() {
+        return sessionFactory.fromSession(session -> {
+            try {
+                return session.createQuery("SELECT id FROM ContactRecord", Integer.class)
+                        .list();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
     public long getContactCount() {
         return sessionFactory.fromSession(session -> {
             return session.createQuery("select count (*) from ContactRecord", Long.class).getSingleResult();

@@ -25,8 +25,7 @@ public class ContactDeletionTests extends TestBase {
     }
 
     @Test
-    void canDeleteAllContactsAtOnce ()
-    {
+    void canDeleteAllContactsAtOnce() {
         if (app.hbm().getContactCount() == 0) {
             app.hbm().createContact(new ContactData("", "firstname", "lastname", "email", ""));
             app.contacts().reloadHomePage();
@@ -34,10 +33,4 @@ public class ContactDeletionTests extends TestBase {
         app.contacts().deleteAllContacts();
         Assertions.assertEquals(0, app.hbm().getContactCount());
     }
-
-    @Test
-    void canRemoveContactFromGroup() {
-
-    }
 }
-
