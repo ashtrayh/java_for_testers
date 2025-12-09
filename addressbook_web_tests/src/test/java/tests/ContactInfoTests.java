@@ -1,0 +1,26 @@
+package tests;
+
+import model.ContactData;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public class ContactInfoTests extends TestBase {
+    @Test
+    void testPhones() {
+        if (app.hbm().getContactCount() == 0) {
+            app.hbm().createContact(new ContactData("", "firstname", "lastname", "email", "", "", "", "", ""));
+            app.contacts().reloadHomePage();
+        }
+        var contacts = app.hbm().getContactList();
+        var expected = contacts.stream().collect(Collectors.toMap(ContactData::id, contact ->
+                Stream.of(contact.home(), contact.mobile(), contact.work(), contact.secondary())
+                        .filter(s -> s != null && !s.isEmpty())
+                        .collect(Collectors.joining("\n"))
+        ));
+        var phones = app.contacts().getPhones();
+        Assertions.assertEquals(expected, phones);
+    }
+}

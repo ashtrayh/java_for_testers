@@ -14,7 +14,7 @@ public class ContactModificationTests extends TestBase {
     @Test
     void canModiFyContact() {
         if (app.hbm().getContactCount() == 0) {
-            app.hbm().createContact(new ContactData("", "firstname", "lastname", "email", ""));
+            app.hbm().createContact(new ContactData("", "firstname", "lastname", "email", "", "", "", "", ""));
             app.contacts().reloadHomePage();
         }
         var oldContacts = app.hbm().getContactList();
@@ -37,7 +37,7 @@ public class ContactModificationTests extends TestBase {
     void canAddContactInGroup() {
         {
             if (app.hbm().getContactCount() == 0) {
-                app.hbm().createContact(new ContactData("", "firstname", "lastname", "email", ""));
+                app.hbm().createContact(new ContactData("", "firstname", "lastname", "email", "", "", "", "", ""));
                 app.contacts().reloadHomePage();
             }
             if (app.hbm().getGroupCount() == 0) {
@@ -58,7 +58,7 @@ public class ContactModificationTests extends TestBase {
                 }
             }
             if (!contactAdded) {
-                app.hbm().createContact(new ContactData("", "firstname", "lastname", "email", ""));
+                app.hbm().createContact(new ContactData("", "firstname", "lastname", "email", "", "", "", "", ""));
                 var allContacts = app.hbm().getContactList();
                 var contact = allContacts.get(allContacts.size() - 1);
                 app.contacts().reloadHomePage();
@@ -73,7 +73,7 @@ public class ContactModificationTests extends TestBase {
     void canRemoveContactFromGroup() {
         {
             if (app.hbm().getContactCount() == 0) {
-                app.hbm().createContact(new ContactData("", "firstname", "lastname", "email", ""));
+                app.hbm().createContact(new ContactData("", "firstname", "lastname", "email", "", "", "", "", ""));
                 app.contacts().reloadHomePage();
             }
             if (app.hbm().getGroupCount() == 0) {

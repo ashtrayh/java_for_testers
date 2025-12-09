@@ -11,7 +11,7 @@ public class ContactDeletionTests extends TestBase {
     @Test
     public void canDeleteContact() {
         if (app.hbm().getContactCount() == 0) {
-            app.hbm().createContact(new ContactData("", "firstname", "lastname", "email", ""));
+            app.hbm().createContact(new ContactData("", "firstname", "lastname", "email", "", "", "", "", ""));
             app.contacts().reloadHomePage();
         }
         var oldContacts = app.hbm().getContactList();
@@ -27,7 +27,7 @@ public class ContactDeletionTests extends TestBase {
     @Test
     void canDeleteAllContactsAtOnce() {
         if (app.hbm().getContactCount() == 0) {
-            app.hbm().createContact(new ContactData("", "firstname", "lastname", "email", ""));
+            app.hbm().createContact(new ContactData("", "firstname", "lastname", "email", "", "", "", "", ""));
             app.contacts().reloadHomePage();
         }
         app.contacts().deleteAllContacts();

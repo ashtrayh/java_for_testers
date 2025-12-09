@@ -10,20 +10,22 @@ import model.GroupData;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Generator {
 
-    @Parameter(names={"--type", "-t"})
+    @Parameter(names = {"--type", "-t"})
     String type;
 
-    @Parameter(names={"--output", "-o"})
+    @Parameter(names = {"--output", "-o"})
     String output;
 
-    @Parameter(names={"--format", "-f"})
+    @Parameter(names = {"--format", "-f"})
     String format;
 
-    @Parameter(names={"--count", "-n"})
+    @Parameter(names = {"--count", "-n"})
     int count;
 
     public static void main(String[] args) throws IOException {
@@ -47,27 +49,23 @@ public class Generator {
         }
     }
 
+    private Object generateData(Supplier<Object> dataSupplier) {
+        return Stream.generate(dataSupplier).limit(count).collect(Collectors.toList());
+    }
+
     private Object generateContacts() {
-        var result = new ArrayList<ContactData>();
-        for (int i = 0; i < 5; i++) {
-            result.add(new ContactData().
-                    withFirstName(CommonFunctions.randomString(i*5)).
-                    withLastName(CommonFunctions.randomString(i*5)).
-                    withEmail(CommonFunctions.randomString(i*5))
-            .withPhoto(CommonFunctions.randomFile("src/test/resources/images")));
-        }
-        return result;
+        return generateData(() -> new ContactData().
+                withFirstName(CommonFunctions.randomString(10)).
+                withLastName(CommonFunctions.randomString(10)).
+                withEmail(CommonFunctions.randomString(10))
+                .withPhoto(CommonFunctions.randomFile("src/test/resources/images")));
     }
 
     private Object generateGroups() {
-        var result = new ArrayList<GroupData>();
-        for (int i = 0; i < count; i++) {
-            result.add(new GroupData().
-                    withName(CommonFunctions.randomString(i*5)).
-                    withHeader(CommonFunctions.randomString(i*5)).
-                    withFooter(CommonFunctions.randomString(i*5)));
-        }
-        return result;
+        return generateData(() -> new GroupData().
+                withName(CommonFunctions.randomString( 10)).
+                withHeader(CommonFunctions.randomString(10)).
+                withFooter(CommonFunctions.randomString(10)));
     }
 
     private void save(Object data) throws IOException {

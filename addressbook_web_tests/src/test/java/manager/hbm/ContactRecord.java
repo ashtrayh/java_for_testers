@@ -23,6 +23,7 @@ public class ContactRecord {
     public String email2 = "default";
     public String email3 = "default";
     public String homepage = "default";
+    public String phone2;
 
     public ContactRecord() {
     }
