@@ -9,7 +9,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.cfg.Configuration;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,10 +51,13 @@ public class HibernateHelper extends HelperBase {
                 .withFirstName(record.firstname)
                 .withLastName(record.lastname)
                 .withEmail(record.email)
-                .withHome(record.home)
-                .withMobile(record.mobile)
-                .withWork(record.work)
-                .withSecondary(record.phone2);
+                .withHomePhone(record.home)
+                .withMobilePhone(record.mobile)
+                .withWorkPhone(record.work)
+                .withSecondaryPhone(record.phone2)
+                .withAddress(record.address)
+                .withEmail2(record.email2)
+                .withEmail3(record.email3);
     }
 
     private static ContactRecord convert(ContactData data) {
@@ -63,7 +65,7 @@ public class HibernateHelper extends HelperBase {
         if ("".equals(id)) {
             id = "0";
         }
-        return new ContactRecord(Integer.parseInt(id), data.firstname(), data.lastname(), data.email());
+        return new ContactRecord(Integer.parseInt(id), data.firstname(), data.lastname(), data.email(), data.home(), data.mobile(), data.work(), data.secondary(), data.address(), data.email2(), data.email3());
     }
 
     public List<GroupData> getGroupList() {
