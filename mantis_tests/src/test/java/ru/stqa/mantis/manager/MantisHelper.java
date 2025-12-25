@@ -9,14 +9,14 @@ public class MantisHelper extends HelperBase {
         super(manager);
     }
 
-    public void CreateUser(UserInfo user) {
+    public void createUser(UserInfo user) {
         openUsersPage();
         initUserCreation();
         fillRegistrationForm(user);
         submitUserCreation();
     }
 
-    public void FinishRegistration(String username, String password, String password2) {
+    public void finishRegistration(String username, String password, String password2) {
         fillSecondRegistrationForm(username, password, password2);
         confirmRegistration();
     }

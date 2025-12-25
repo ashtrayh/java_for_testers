@@ -14,7 +14,7 @@ public class UserRegistrationTests extends TestBase {
         var username = CommonFunctions.randomString(5);
         var email = String.format(username + "@localhost");
         try {
-            app.jamesCli().addUser(email, "password");
+            app.jamesApi().addUser(email, "password");
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -22,7 +22,7 @@ public class UserRegistrationTests extends TestBase {
             app.session().login("administrator", "root");
         }
         var user = new UserInfo().withUsername(username).withRealname(username).withEmail(email);
-        app.mantis().CreateUser(user);
+        app.mantis().createUser(user);
         var messages = app.mail().receive(email, "password", Duration.ofSeconds(10));
         var text = messages.get(0).content();
         var pattern = Pattern.compile("http://\\S*");
@@ -36,7 +36,7 @@ public class UserRegistrationTests extends TestBase {
         } else {
             throw new RuntimeException("Ссылка не найдена");
         }
-        app.mantis().FinishRegistration(username, "password", "password");
+        app.mantis().finishRegistration(username, "password", "password");
         app.http().login(username, "password");
         app.http().isLoggedIn();
     }
