@@ -1,5 +1,6 @@
 package manager;
 
+import io.qameta.allure.Step;
 import manager.hbm.ContactRecord;
 import manager.hbm.GroupRecord;
 
@@ -68,6 +69,7 @@ public class HibernateHelper extends HelperBase {
         return new ContactRecord(Integer.parseInt(id), data.firstname(), data.lastname(), data.email(), data.home(), data.mobile(), data.work(), data.secondary(), data.address(), data.email2(), data.email3());
     }
 
+    @Step
     public List<GroupData> getGroupList() {
         return convertList(sessionFactory.fromSession(session -> {
             return session.createQuery("from GroupRecord", GroupRecord.class).list();
@@ -80,6 +82,7 @@ public class HibernateHelper extends HelperBase {
         });
     }
 
+    @Step
     public void createGroup(GroupData groupData) {
         sessionFactory.inSession(session -> {
             session.getTransaction().begin();
